@@ -24,6 +24,11 @@ RUN pip install --upgrade pip \
                           virtualenv \
                           requests
 
+#                                      #
+#           JAVA 8
+#                                      #
+RUN apt-get install openjdk-8-jre -y
+
 RUN pip install awscli --upgrade
 
 #                                      #
@@ -34,15 +39,24 @@ RUN mkdir -p /usr/src/node
 
 WORKDIR /usr/src/node
 
+#                                      #
+#                NODE 
+#                                      #
 RUN apt-get install curl \ 
     && curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh \ 
     && bash nodesource_setup.sh \
     && apt-get install nodejs
 
 #                                      #
+#       NIGHTWATCH + HTTP-SERVER
+#                                      #
+RUN npm i -g nightwatch \
+    && npm i -g http-server \
+    && mkdir -p /usr/src/app
+
+#                                      #
 #          SAUCE LABS STUFF
 #                                      #
-
 ENV SAUCE_DIR /usr/src/sauce-connect
 
 ENV SC_VERSION 4.4.12
@@ -59,14 +73,13 @@ RUN mv sc-$SC_VERSION-linux/* ./ && rm -rf sc-$SC_VERSION-linux
 RUN export SC=$SAUCE_DIR
 
 ADD start.sh $SAUCE_DIR
+
 RUN chmod a+x $SAUCE_DIR/start.sh
 
-#                                      #
-#       NIGHTWATCH + HTTP-SERVER
-#                                      #
+RUN chmod a+x $SAUCE_DIR/bin/sc
 
-RUN npm i -g nightwatch \
-    && npm i -g http-server \
-    && mkdir -p /usr/src/app
+EXPOSE 8080
+
+WORKDIR /usr/src/app
 
 CMD [ "BASH" ]

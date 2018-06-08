@@ -76,7 +76,7 @@ if [[ "$USER" == "" || "$ACCESS_KEY" == "" ]]; then
     usage
 fi
 
-SC=$workdir/bin/sc
+SC=$SAUCE_DIR/bin/sc
 
 if [[ $POOL -gt 0 ]]; then
     if [[ $DELAY != "" ]]; then
