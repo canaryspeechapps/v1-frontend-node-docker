@@ -1,0 +1,38 @@
+FROM node:8.11.2-jessie
+
+EXPOSE 8080
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && mkdir -p /usr/src/app \ 
+    && mkdir -p /usr/src/python
+
+WORKDIR /user/src/python
+
+RUN apt-get install -y make build-essential libssl-dev zlib1g-dev \
+    && apt-get install -y libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \ 
+    && apt-get install -y libncurses5-dev  libncursesw5-dev xz-utils tk-dev \
+    && wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz \
+    && tar xvf Python-3.6.4.tgz
+
+WORKDIR /user/src/python/Python-3.6.4
+
+RUN ./configure --enable-optimizations \
+    && make -j8 \
+    && make altinstall
+
+WORKDIR /usr/src/app
+
+RUN npm i -g nightwatch \
+    && npm i -g http-server
+
+# RUN apt-get install python-pip -y
+
+# RUN pip install awscli==1.11.25 
+
+CMD [ "bash" ]
+# awscli 1.11.25 requires botocore==1.4.82, which is not installed.
+# awscli 1.11.25 requires docutils>=0.10, which is not installed.
+# awscli 1.11.25 requires PyYAML<=3.12,>=3.10, which is not installed.
+# awscli 1.11.25 requires rsa<=3.5.0,>=3.1.2, which is not installed.
+# awscli 1.11.25 requires s3transfer<0.2.0,>=0.1.9, which is not installed.
