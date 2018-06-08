@@ -10,4 +10,4 @@ WORKDIR /usr/src/app
 RUN npm i -g nightwatch && \
     npm i -g http-server
 
-CMD [ "node" ]
+CMD [ "bash" ]
