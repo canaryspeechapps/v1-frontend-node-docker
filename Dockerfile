@@ -61,18 +61,12 @@ RUN export SC=$SAUCE_DIR
 ADD start.sh $SAUCE_DIR
 RUN chmod a+x $SAUCE_DIR/start.sh
 
+#                                      #
+#       NIGHTWATCH + HTTP-SERVER
+#                                      #
 
+RUN npm i -g nightwatch \
+    && npm i -g http-server \
+    && mkdir -p /usr/src/app
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+CMD [ "BASH" ]
