@@ -29,6 +29,9 @@ RUN pip install --upgrade pip \
 #                                      #
 RUN apt-get install openjdk-8-jre -y
 
+#                                      #
+#           aws cli 
+#                                      #
 RUN pip install awscli --upgrade
 
 #                                      #
@@ -57,28 +60,28 @@ RUN npm i -g nightwatch \
 #                                      #
 #          SAUCE LABS STUFF
 #                                      #
-ENV SAUCE_DIR /usr/src/sauce-connect
+# ENV SAUCE_DIR /usr/src/sauce-connect
 
-ENV SC_VERSION 4.4.12
+# ENV SC_VERSION 4.4.12
 
-RUN mkdir -p ${SAUCE_DIR}
+# RUN mkdir -p ${SAUCE_DIR}
 
-WORKDIR ${SAUCE_DIR}
+# WORKDIR ${SAUCE_DIR}
 
-RUN apt-get install wget \
-    && wget https://saucelabs.com/downloads/sc-$SC_VERSION-linux.tar.gz -O - | tar -xz
+# RUN apt-get install wget \
+#     && wget https://saucelabs.com/downloads/sc-$SC_VERSION-linux.tar.gz -O - | tar -xz
 
-RUN mv sc-$SC_VERSION-linux/* ./ && rm -rf sc-$SC_VERSION-linux
+# RUN mv sc-$SC_VERSION-linux/* ./ && rm -rf sc-$SC_VERSION-linux
 
-RUN export SC=$SAUCE_DIR
+# RUN export SC=$SAUCE_DIR
 
-ADD start.sh $SAUCE_DIR
+# ADD start.sh $SAUCE_DIR
 
-RUN chmod a+x $SAUCE_DIR/start.sh
+# RUN chmod a+x $SAUCE_DIR/start.sh
 
-RUN chmod a+x $SAUCE_DIR/bin/sc
+# RUN chmod a+x $SAUCE_DIR/bin/sc
 
-EXPOSE 8080
+# EXPOSE 8080
 
 WORKDIR /usr/src/app
 
