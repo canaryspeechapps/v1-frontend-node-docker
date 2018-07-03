@@ -122,6 +122,4 @@ RUN apt-get update -y
 
 WORKDIR /usr/src/app
 
-ENV SHELL=/bin/bash
-
-CMD [ "BASH" ]
+CMD [ "/bin/bash" ]
