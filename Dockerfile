@@ -88,6 +88,9 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 # Install Chrome.
 RUN apt-get update && apt-get -y install google-chrome-stable
 
+RUN rm -rf google.list google.list.save
+
+RUN apt-get update -y
 # RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
 #     && dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 
@@ -118,5 +121,7 @@ RUN apt-get update && apt-get -y install google-chrome-stable
 # EXPOSE 8080
 
 WORKDIR /usr/src/app
+
+ENV SHELL=/bin/bash
 
 CMD [ "BASH" ]
