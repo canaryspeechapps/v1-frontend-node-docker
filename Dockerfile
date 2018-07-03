@@ -4,6 +4,7 @@ FROM ubuntu:16.04
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y \ 
+    apt-utils \
     build-essential \
     python3 \
     python \
@@ -18,6 +19,9 @@ RUN apt-get update \
 
 # General dev tools
 RUN apt-get install -y git
+
+RUN apt-get install -y wget
+
 
 # Latest versions of python tools via pip
 RUN pip install --upgrade pip \
@@ -56,6 +60,36 @@ RUN apt-get install curl \
 RUN npm i -g nightwatch \
     && npm i -g http-server \
     && mkdir -p /usr/src/app
+
+#                                      #
+#      CHROME - for nightwatch 
+#                                      #
+RUN mkdir -p /usr/src/tmp
+
+WORKDIR /usr/src/tmp
+
+# Add a user for running applications.
+RUN useradd apps
+RUN mkdir -p /home/apps && chown apps:apps /home/apps
+
+# Install x11vnc.
+RUN apt-get install -y x11vnc
+# Install xvfb.
+RUN apt-get install -y xvfb
+# Install fluxbox.
+RUN apt-get install -y fluxbox
+# Install wget.
+RUN apt-get install -y wget
+# Install wmctrl.
+RUN apt-get install -y wmctrl
+# Set the Chrome repo.
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+# Install Chrome.
+RUN apt-get update && apt-get -y install google-chrome-stable
+
+# RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+#     && dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 
 #                                      #
 #          SAUCE LABS STUFF
